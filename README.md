@@ -1,5 +1,11 @@
 # Game Design Document (GDD)
 
+### 🎮 [**Play the Game Here**](https://abraham-moncherry.github.io/garden-of-love-web/)
+
+> Click the link above to play and test the game directly in your browser.
+
+---
+
 ## Table of Contents
 
 - [Game Overview](#game-overview)
@@ -388,6 +394,7 @@ _Visual Aid_:
 <!-- List any external resources used for inspiration or assets (e.g., Unity Asset Store links, tutorials). Update this as the project progresses. -->
 
 - https://sketchfab.com/
+
 
 
 

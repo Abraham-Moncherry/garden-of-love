@@ -1,0 +1,43 @@
+Garden of Love – Think-Aloud Observational Notes
+
+Participant 1 (M, 21)
+- Said “Wow, the grass feels huge, it’s like I’m tiny!” at start.
+- Hesitated when approaching the ant line, unsure if touching would cause damage.
+- Tried to pick up a random pebble before realizing the stone interaction popup.
+- Said “Ah okay, I have to hit the red ant” after reading the hint.
+- Completed the level in ~2 minutes; noted it was short but clear.
+- Suggested “Make it clearer which stones are pickable.”
+
+Participant 2 (F, 23)
+- Quickly understood movement and camera controls.
+- Verbalized: “I think I’m supposed to throw something at the red ant.”
+- Missed the rock location initially, wandered around for ~30 seconds.
+- Commented “The sound of ants is creepy but cool.”
+- Suggested making the rock more visible.
+
+Participant 3 (M, 25)
+- Expressed confusion: “Am I allowed to walk into the sand area?”
+- Got stuck trying to climb grass edges — said “I think I went outside the map?”
+- Noticed the pop-up message but didn’t see the stone right away.
+- Completed the task eventually; said “Okay, that was satisfying when the ants disappeared.”
+- Suggested better boundary guidance or invisible walls.
+
+Participant 4 (M, 20)
+- Moved confidently but said “Controls feel a bit floaty.”
+- Walked into ants multiple times before realizing it caused no immediate damage.
+- Understood red ant target instantly after message appeared.
+- Suggested adding a short animation or effect when throwing stone hits.
+
+Participant 5 (F, 22)
+- Commented on visuals: “The lighting looks really good — feels warm.”
+- Missed stone pickup entirely; stood idle for ~15 seconds near ants.
+- Asked, “Is there another way to cross?”
+- Eventually found stone and said, “Ah, got it!”
+- Suggested highlighting interactive items.
+
+General Observations:
+- All players enjoyed the small-world feeling and visuals.
+- 3/5 players struggled to locate the rock.
+- 4/5 players were unsure of map boundaries initially.
+- Red ant mechanic was well understood once discovered.
+- Average completion time: ~2–3 minutes per participant.

@@ -1,0 +1,132 @@
+using UnityEngine;
+using StarterAssets;
+
+/// <summary>
+/// Detects when the player enters water and applies current force to the CharacterController.
+/// This bridges the gap between physics-based RiverCurrent and CharacterController movement.
+/// </summary>
+public class WaterCurrentDetector : MonoBehaviour
+{
+    [Header("References")]
+    [Tooltip("The CharacterController component on the player")]
+    private CharacterController characterController;
+    private static readonly int ShaderCharacterPosID = Shader.PropertyToID("_CharacterWorldPos"); // <--- ADD THIS LINE
+
+    [Header("Current State")]
+    [Tooltip("Is the player currently in water?")]
+    public bool isInWater = false;
+
+    [Tooltip("The current force being applied from the water")]
+    public Vector3 currentForce = Vector3.zero;
+
+    [Tooltip("Reference to the active river current script")]
+    private RiverCurrent activeRiverCurrent = null;
+
+    [Header("Settings")]
+    [Tooltip("Multiplier for the current strength (increase if current is too weak)")]
+    public float currentMultiplier = 1.0f;
+
+    void Start()
+    {
+        characterController = GetComponent<CharacterController>();
+
+        if (characterController == null)
+        {
+            Debug.LogError("WaterCurrentDetector: No CharacterController found on " + gameObject.name);
+        }
+        else
+        {
+            Debug.Log("WaterCurrentDetector: Successfully found CharacterController on " + gameObject.name);
+        }
+
+        // Check for Rigidbody requirement
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("WaterCurrentDetector: No Rigidbody found! Triggers won't work without a Rigidbody.");
+        }
+        else if (rb.isKinematic)
+        {
+            Debug.LogWarning("WaterCurrentDetector: Rigidbody is Kinematic! This may prevent trigger detection.");
+        }
+    }
+
+    void Update()
+    {
+        // Apply water current if in water
+        if (isInWater && activeRiverCurrent != null && characterController != null)
+        {
+            // Get the current strength from the RiverCurrent script
+            Vector3 currentStrength = activeRiverCurrent.currentStrength;
+
+            // Apply the current force (scaled by deltaTime and multiplier for smooth movement)
+            Vector3 currentMovement = currentStrength * Time.deltaTime * currentMultiplier;
+
+            // Store for debugging
+            currentForce = currentMovement;
+
+            // Move the character controller
+            characterController.Move(currentMovement);
+        }
+        // --- RIPPLE UPDATE (Merged from RippleEffectSetter) ---
+        // Update the global shader position if the character controller is active
+        if (characterController != null)
+        {
+            // Pass the character's position to the shader every frame
+            Shader.SetGlobalVector(ShaderCharacterPosID, transform.position); 
+        }
+    }
+
+    // Called when entering a trigger collider
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("WaterCurrentDetector: Trigger entered with " + other.gameObject.name);
+
+        // Check if we entered a river current zone
+        RiverCurrent riverCurrent = other.GetComponent<RiverCurrent>();
+
+        if (riverCurrent != null)
+        {
+            isInWater = true;
+            activeRiverCurrent = riverCurrent;
+            Debug.Log("SUCCESS: " + gameObject.name + " entered water current zone! Current strength: " + riverCurrent.currentStrength);
+        }
+        else
+        {
+            Debug.Log("No RiverCurrent component found on " + other.gameObject.name);
+        }
+    }
+
+    // Called when staying in a trigger collider
+    private void OnTriggerStay(Collider other)
+    {
+        // Backup check - if we're in the trigger but isInWater is false, enable it
+        if (!isInWater)
+        {
+            RiverCurrent riverCurrent = other.GetComponent<RiverCurrent>();
+            if (riverCurrent != null)
+            {
+                isInWater = true;
+                activeRiverCurrent = riverCurrent;
+                Debug.Log("OnTriggerStay: Enabled water current for " + gameObject.name);
+            }
+        }
+    }
+
+    // Called when exiting a trigger collider
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("WaterCurrentDetector: Trigger exited with " + other.gameObject.name);
+
+        // Check if we exited the river current zone
+        RiverCurrent riverCurrent = other.GetComponent<RiverCurrent>();
+
+        if (riverCurrent != null && riverCurrent == activeRiverCurrent)
+        {
+            isInWater = false;
+            activeRiverCurrent = null;
+            currentForce = Vector3.zero;
+            Debug.Log("SUCCESS: " + gameObject.name + " exited water current zone");
+        }
+    }
+}
